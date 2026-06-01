@@ -50,6 +50,16 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'secondary',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'danger',
+}
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
@@ -116,6 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']     # arquivos do projeto
+STATIC_ROOT = BASE_DIR / 'staticfiles'        # usado em produção
 # usado para upload de arquivos
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

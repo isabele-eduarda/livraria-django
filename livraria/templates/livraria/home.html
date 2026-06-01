@@ -1,0 +1,52 @@
+{% extends 'livraria/base.html' %}
+
+{% block title %}Início — Livraria Django{% endblock %}
+
+{% block content %}
+    <div class="bg-light p-5 rounded mb-4">
+        <h1 class="display-5 fw-bold"> Bem-vindo à Livraria Django</h1>
+        <p class="lead">Os melhores livros, das mais variadas categorias.</p>
+        <a href="{% url 'livros:lista' %}" class="btn btn-primary btn-lg">
+            Ver catálogo completo
+        </a>
+    </div>
+
+    <h2 class="mb-4">Lançamentos</h2>
+
+    <div class="row g-4">
+        {% for livro in livros %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-sm">
+                    {% if livro.capa %}
+                        <img src="{{ livro.capa.url }}"
+                             class="card-img-top"
+                             alt="{{ livro.titulo }}"
+                             style="height: 250px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center"
+                             style="height: 250px;">
+                            <i class="bi bi-book" style="font-size: 4rem;"></i>
+                        </div>
+                    {% endif %}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ livro.titulo|truncatechars:40 }}</h5>
+                        <p class="card-text text-muted small">
+                            {{ livro.editora.nome }} · {{ livro.ano_publicacao }}
+                        </p>
+                        <p class="card-text fw-bold text-primary fs-5">
+                            R$ {{ livro.preco|floatformat:2 }}
+                        </p>
+                        <a href="{% url 'livros:detalhe' livro.pk %}"
+                           class="btn btn-outline-primary mt-auto">
+                            Ver detalhes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">Nenhum livro cadastrado ainda.</div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
